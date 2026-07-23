@@ -1,6 +1,6 @@
 import Testing
 import Foundation
-import System
+import SystemPackage
 import NIOFileSystem
 import AsyncHTTPClient
 import AsyncAlgorithms
@@ -64,7 +64,7 @@ struct HttpsFileTests {
                     for try await chunk in fh.readChunks(chunkLength: .kilobytes(64)) {
                         await stream.send(chunk)
                         current += .init(chunk.readableBytes)
-                        print("W-\(current)/\(info.size)", terminator: "\n")
+                        print("W-\((Double(current)/Double(info.size)*100).formatted(.number.precision(.fractionLength(0...1))))%", terminator: " ")
                     }
                     try await fh.close()
                     stream.finish()
@@ -86,10 +86,12 @@ struct HttpsFileTests {
             
             for try await chunk in res.body {
                 size += chunk.readableBytes
-                print("R-\(size)/\(info.size)", terminator: "\n")
+                print("R-\((Double(size)/Double(info.size)*100).formatted(.number.precision(.fractionLength(0...1))))%", terminator: " ")
             }
             
             #expect(size == info.size)
+            
+            print()
         }
     }
     
@@ -113,7 +115,7 @@ struct HttpsFileTests {
                     for try await chunk in fh.readChunks(chunkLength: .kilobytes(64)) {
                         await stream.send(chunk)
                         current += .init(chunk.readableBytes)
-                        print("W-\(current)/\(info.size)", terminator: "\n")
+                        print("W-\((Double(current)/Double(info.size)*100).formatted(.number.precision(.fractionLength(0...1))))%", terminator: " ")
                     }
                     try await fh.close()
                     stream.finish()
@@ -135,10 +137,12 @@ struct HttpsFileTests {
             
             for try await chunk in res.body {
                 size += chunk.readableBytes
-                print("R-\(size)/\(info.size)", terminator: "\n")
+                print("R-\((Double(size)/Double(info.size)*100).formatted(.number.precision(.fractionLength(0...1))))%", terminator: " ")
             }
             
             #expect(size == info.size)
+            
+            print()
         }
     }
     

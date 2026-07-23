@@ -18,6 +18,7 @@ let package = Package(
         .package(url: "https://github.com/vapor/vapor", from: "4.122.0"),
         .package(url: "https://github.com/vapor/fluent.git", from: "4.13.0"),
         .package(url: "https://github.com/vapor/fluent-postgres-driver.git", from: "2.10.0"),
+        .package(url: "https://github.com/apple/swift-system", from: "1.7.5"),
         .package(url: "https://github.com/apple/swift-log.git", from: "1.9.1"),
         .package(url: "https://github.com/apple/swift-collections", from: "1.6.0"),
         .package(url: "https://github.com/Flight-School/AnyCodable", from: "0.6.0"),
@@ -48,6 +49,7 @@ let package = Package(
             dependencies: [
                 .target(name: "VaporTube"),
                 .product(name: "VaporTesting", package: "vapor"),
+                .product(name: "SystemPackage", package: "swift-system"),
                 .product(name: "AsyncAlgorithms", package: "swift-async-algorithms")
             ],
             swiftSettings: [

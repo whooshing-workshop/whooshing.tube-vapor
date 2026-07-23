@@ -39,7 +39,7 @@ struct HttpsStreamingTests {
                     let data = Self.randomData(size: .init(chunkSize))
                     await stream.send(data)
                     current += .init(data.readableBytes)
-                    print("W-\(current)/\(totalSize)", terminator: "\n")
+                    print("W-\((Double(current)/Double(totalSize)*100).formatted(.number.precision(.fractionLength(0...1))))%", terminator: " ")
                 }
                 
                 stream.finish()
@@ -56,10 +56,12 @@ struct HttpsStreamingTests {
             
             for try await chunk in res.body {
                 size += chunk.readableBytes
-                print("R-\(size)/\(totalSize)", terminator: "\n")
+                print("R-\((Double(size)/Double(totalSize)*100).formatted(.number.precision(.fractionLength(0...1))))%", terminator: " ")
             }
             
             #expect(size == totalSize)
+            
+            print()
         }
     }
     
@@ -97,7 +99,7 @@ struct HttpsStreamingTests {
                     let data = Self.randomData(size: .init(chunkSize))
                     await stream.send(data)
                     current += .init(data.readableBytes)
-                    print("W-\(current)/\(totalSize)", terminator: "\n")
+                    print("W-\((Double(current)/Double(totalSize)*100).formatted(.number.precision(.fractionLength(0...1))))%", terminator: " ")
                 }
                 
                 stream.finish()
@@ -114,10 +116,12 @@ struct HttpsStreamingTests {
             
             for try await chunk in res.body {
                 size += chunk.readableBytes
-                print("R-\(size)/\(totalSize)", terminator: "\n")
+                print("R-\((Double(size)/Double(totalSize)*100).formatted(.number.precision(.fractionLength(0...1))))%", terminator: " ")
             }
             
             #expect(size == totalSize)
+            
+            print()
         }
     }
     
