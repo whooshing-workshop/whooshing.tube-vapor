@@ -20,5 +20,6 @@ jobs:
       ios_xcodebuild_action: ''
       
       with_musl: true
+      with_tsan: false
       extra_musl_flags: --target VaporTube
     secrets: inherit
