@@ -90,7 +90,7 @@ extension VaporTube {
             initLogger.debug("准备 Vapor 实例")
 
             let app = try await required(throws: Self.Errcase.vaporAppCreateFailed, category: .internal) {
-                try await Application.make(env)
+                try await Application.make(env, .shared(paras.eventloopGroup))
             }
             app.logger = logger.derive(subId: "vapor")
             app.http.server.configuration.hostname = config.hostname
