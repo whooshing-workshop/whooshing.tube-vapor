@@ -45,11 +45,8 @@ public final class VaporTube: Tube, @unchecked Sendable {
         logger: Logger
     ) {
         self.app = app
-        self.router = .init(options: app.routes.caseInsensitive ? Set(arrayLiteral: TrieRouter<VaporTube.Handler>.ConfigurationOption.caseInsensitive) : [])
         self.logger = logger
     }
-    
-    public let router: TrieRouter<Handler>
 }
 
 public extension VaporTube {
@@ -90,7 +87,7 @@ extension VaporTube {
             initLogger.debug("准备 Vapor 实例")
 
             let app = try await required(throws: Self.Errcase.vaporAppCreateFailed, category: .internal) {
-                try await Application.make(env, .shared(paras.eventloopGroup))
+                try await Application.make(env, .shared(paras.eventLoopGroup))
             }
             app.logger = logger.derive(subId: "vapor")
             app.http.server.configuration.hostname = config.hostname
@@ -130,7 +127,6 @@ extension VaporTube {
             let service = Self(app: app, logger: logger.derive(subId: "woo"))
             do {
                 try await conf(service)
-                app.middleware.use(TrieRouterMiddleware(router: service.router))
                 app.middleware.use(RouteEndErrorHandler())
             } catch {
                 let err = Self.Errcase.serviceInitFailed.subErr(error, category: .internal)
