@@ -20,6 +20,7 @@ struct FilePrepareRes: Content {
 struct HttpsService {
     static func bootstrap() async throws -> Bootstrap.Paras {
         let testPara = Environment.Config(
+            id: ServiceBootstrap.moduleId,
             name: "testing-module",
             port: TestingShared.httpsListenPort
         )
