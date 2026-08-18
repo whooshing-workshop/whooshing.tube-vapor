@@ -19,6 +19,7 @@ jobs:
       with_release_mode_testing: true
       ios_xcodebuild_action: ''
       
+      only_build: true
       with_musl: true
       with_tsan: false
       extra_musl_flags: --target VaporTube
