@@ -18,27 +18,24 @@ struct FilePrepareRes: Content {
 }
 
 struct HttpsService {
-    static func bootstrap() async throws -> Whooshing.BootstrapParas {
-        let testPara = Https.Debuging(
-            config: .init(
-                id: ServiceBootstrap.moduleId,
-                name: "testing-module",
-                port: TestingShared.httpsListenPort
-            )
+    static func bootstrap() async throws -> Bootstrap.Paras {
+        let testPara = Environment.Config(
+            name: "testing-module",
+            port: TestingShared.httpsListenPort
         )
         
         var logger = Logger(label: "server.https")
         logger.logLevel = TestingShared.logLevel
-        return try await Whooshing.bootstrap(.independentDebug(testPara), logger: logger).get()
+        return try await Bootstrap.run(.independentDebug(testPara), logger: logger).get()
     }
     
-    static func makeService(paras: Whooshing.BootstrapParas) async throws -> Whooshing {
-        let woo = try await Whooshing.make(paras).get()
+    static func makeService(paras: Bootstrap.Paras) async throws -> VaporTube {
+        let woo = try await VaporTube.make(paras).get()
         try routes(woo, app: woo.app)
         return woo
     }
         
-    static func routes(_ woo: Whooshing, app: Application) throws {
+    static func routes(_ woo: VaporTube, app: Application) throws {
         struct Query: Content {
             let value: String
         }

@@ -33,7 +33,7 @@ struct HttpsNormalTests {
             let length = try Int(#require(res.headers.first(name: "content-length")))
             #expect(length == "NO-BODY".lengthOfBytes(using: .utf8))
             var body = try #require(res.body)
-            #expect(try body.readString(length: body.readableBytes) == "NO-BODY")
+            #expect(body.readString(length: body.readableBytes) == "NO-BODY")
         }
     }
     
@@ -53,7 +53,7 @@ struct HttpsNormalTests {
             let length = try Int(#require(res.headers.first(name: "content-length")))
             #expect(length == testString.lengthOfBytes(using: .utf8))
             var body = try #require(res.body)
-            #expect(try body.readString(length: body.readableBytes) == testString)
+            #expect(body.readString(length: body.readableBytes) == testString)
         }
     }
     

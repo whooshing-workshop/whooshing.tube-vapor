@@ -23,19 +23,20 @@ let package = Package(
         .package(url: "https://github.com/apple/swift-collections", from: "1.6.0"),
         .package(url: "https://github.com/Flight-School/AnyCodable", from: "0.6.0"),
         .package(url: "https://github.com/apple/swift-async-algorithms", from: "1.0.0"),
+        .package(url: "https://github.com/whooshing-workshop/whooshing.nexus", from: "0.0.2"),
         .package(url: "https://github.com/whooshing-workshop/whooshing.toolbox-basic.git", from: "1.6.2")
     ],
     targets: [
         .target(
             name: "VaporTube",
             dependencies: [
+                .product(name: "Nexus", package: "whooshing.nexus"),
                 .product(name: "Vapor", package: "vapor"),
                 .product(name: "Fluent", package: "fluent"),
                 .product(name: "Logging", package: "swift-log"),
                 .product(name: "AnyCodable", package: "AnyCodable"),
                 .product(name: "Cryptos", package: "whooshing.toolbox-basic"),
-                .product(name: "ErrorHandle", package: "whooshing.toolbox-basic"),
-                .product(name: "DataConvertable", package: "whooshing.toolbox-basic"),
+                .product(name: "NIOAdvanced", package: "whooshing.toolbox-basic"),
                 .product(name: "LoggingAdvanced", package: "whooshing.toolbox-basic"),
                 .product(name: "FluentPostgresDriver", package: "fluent-postgres-driver"),
                 .product(name: "OrderedCollections", package: "swift-collections")
@@ -45,7 +46,7 @@ let package = Package(
             ]
         ),
         .testTarget(
-            name: "toolbox-server-Tests",
+            name: "tube-vapor-Tests",
             dependencies: [
                 .target(name: "VaporTube"),
                 .product(name: "VaporTesting", package: "vapor"),

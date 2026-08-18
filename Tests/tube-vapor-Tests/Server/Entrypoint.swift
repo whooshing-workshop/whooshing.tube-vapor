@@ -5,7 +5,7 @@ import Testing
 import LoggingAdvanced
 
 enum Entrypoint {
-    nonisolated(unsafe) static var httpsApp: Whooshing!
+    nonisolated(unsafe) static var httpsApp: VaporTube!
     
     private enum WatchdogResult: Sendable {
         case shouldStop
