@@ -16,7 +16,7 @@ public struct ServiceValidator: AsyncMiddleware {
     public static let headerName: String = "X-Module-ID"
     
     public struct Identifier: Authenticatable {
-        let incomingId: UUID
+        public let incomingId: UUID
     }
     
     public func respond(to request: Request, chainingTo next: AsyncResponder) async throws -> Response {
