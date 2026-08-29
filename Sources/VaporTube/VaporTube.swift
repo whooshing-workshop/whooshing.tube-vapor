@@ -125,6 +125,7 @@ extension VaporTube {
                 }
             }
             let service = Self(app: app, logger: logger.derive(subId: "woo"))
+            app.serviceRegistry = .init(managerURL: config.managerUrl, moduleID: config.id)
             do {
                 try await conf(service)
                 app.middleware.use(RouteEndErrorHandler())
