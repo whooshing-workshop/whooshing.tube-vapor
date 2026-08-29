@@ -339,8 +339,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/whooshing-workshop/whooshing.nexus",
       "state" : {
-        "revision" : "e388d25695db57e1b12072c1ab716469548fa5b9",
-        "version" : "0.0.7"
+        "revision" : "0fe3c172173f57de5919a2a46fbcb912531af5f5",
+        "version" : "0.0.8"
       }
     },
     {

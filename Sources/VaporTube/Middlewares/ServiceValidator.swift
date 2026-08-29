@@ -15,6 +15,10 @@ import Vapor
 public struct ServiceValidator: AsyncMiddleware {
     public static let headerName: String = "X-Module-ID"
     
+    public struct Identifier: Authenticatable {
+        let incomingId: UUID
+    }
+    
     public func respond(to request: Request, chainingTo next: AsyncResponder) async throws -> Response {
         guard
             let idString = request.headers.first(name: Self.headerName),
@@ -27,6 +31,8 @@ public struct ServiceValidator: AsyncMiddleware {
             moduleID: sourceModuleID,
             client: request.client
         )
+        
+        request.auth.login(Identifier(incomingId: sourceModuleID))
         
         return try await next.respond(to: request)
     }
