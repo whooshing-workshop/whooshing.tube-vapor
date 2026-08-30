@@ -29,7 +29,8 @@ public struct ServiceValidator: AsyncMiddleware {
 
         try await request.application.serviceRegistry.verify(
             moduleID: sourceModuleID,
-            client: request.client
+            client: request.client,
+            logger: request.logger
         )
         
         request.auth.login(Identifier(incomingId: sourceModuleID))
@@ -65,11 +66,14 @@ actor ServiceRegistry {
     }
 
     /// 校验模块 ID（本地命中直接返回；未命中则远程查验并动态更新）
-    func verify(moduleID: UUID, client: Client) async throws {
+    func verify(moduleID: UUID, client: Client, logger: Logger) async throws(VaporTube.Errcase.ErrType) {
         
         guard self.moduleID != moduleID else {
-            throw Abort(.unauthorized, reason: "非法的模块 \(moduleID)")
+            throw VaporTube.Errcase.serviceValidateFailed.d("非法的模块 \(moduleID)", category: .external(suggestions: ["请使用合法的模块进行请求"], userdata: .init(HTTPResponseStatus.unauthorized)))
         }
+        
+        let logger = logger.derive(metadata: ["module_id": .summaryData(moduleID)])
+        logger.info("校验来源模块是否合法")
         
         if allowedModuleIDs.contains(moduleID) { return }
 
@@ -78,15 +82,24 @@ actor ServiceRegistry {
             let allowed: Bool
         }
         
-        let response = try await client.get("\(managerURL)/modules/\(moduleID)/verify")
+        let response: ClientResponse
+        
+        do {
+            response = try await client.get("\(managerURL)/modules/\(moduleID)/verify")
+        } catch {
+            throw VaporTube.Errcase.serviceValidateFailed.d("向模块管理服务请求服务确认时失败", category: .internal)
+        }
+        
         guard
             response.status == .ok,
             let result = try? response.content.decode(VerifyResponse.self),
             result.allowed
         else {
-            throw Abort(.unauthorized, reason: "非法的模块 \(moduleID)")
+            throw VaporTube.Errcase.serviceValidateFailed.d("验证未通过，非法的模块 \(moduleID)", category: .external(suggestions: ["请使用合法的模块进行请求"], userdata: .init(HTTPResponseStatus.unauthorized)))
         }
 
+        logger.info("来源模块合法，允许连线")
+        
         // 验证通过，加入本地缓存
         allowedModuleIDs.insert(moduleID)
     }

@@ -1,5 +1,5 @@
 {
-  "originHash" : "16280772877c1352997e02e086b790403f8dd9d55786d398c26ff1afa25c3a63",
+  "originHash" : "753fdc69457e09a7b7cee2d31c53ced3b48d34f3e62853a62488f2e8134a90dd",
   "pins" : [
     {
       "identity" : "anycodable",
@@ -339,8 +339,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/whooshing-workshop/whooshing.nexus",
       "state" : {
-        "revision" : "0fe3c172173f57de5919a2a46fbcb912531af5f5",
-        "version" : "0.0.8"
+        "branch" : "develop",
+        "revision" : "fbe15c247a70b7bd92e49f6f931f8c3a221505b9"
       }
     },
     {
@@ -348,8 +348,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/whooshing-workshop/whooshing.toolbox-basic.git",
       "state" : {
-        "revision" : "a77dacf42d676243a9ca6738eba21bc3f7b646eb",
-        "version" : "1.6.2"
+        "branch" : "develop",
+        "revision" : "8bd9f475e0eff2ac77aa7c82236b92756bc056dd"
       }
     }
   ],

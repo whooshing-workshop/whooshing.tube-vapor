@@ -23,8 +23,8 @@ let package = Package(
         .package(url: "https://github.com/apple/swift-collections", from: "1.6.0"),
         .package(url: "https://github.com/Flight-School/AnyCodable", from: "0.6.0"),
         .package(url: "https://github.com/apple/swift-async-algorithms", from: "1.0.0"),
-        .package(url: "https://github.com/whooshing-workshop/whooshing.nexus", from: "0.0.8"),
-        .package(url: "https://github.com/whooshing-workshop/whooshing.toolbox-basic.git", from: "1.6.2")
+        .package(url: "https://github.com/whooshing-workshop/whooshing.nexus", branch: "develop"),
+        .package(url: "https://github.com/whooshing-workshop/whooshing.toolbox-basic.git", branch: "develop")
     ],
     targets: [
         .target(
