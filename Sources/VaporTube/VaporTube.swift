@@ -69,6 +69,11 @@ extension VaporTube {
     ) async -> Result<VaporTube, Failure> {
         await makeService(paras: paras) { _ throws(Errcase.ErrType) in }
     }
+    
+    @inlinable
+    public func config<T>(from nexus: Nexus<T>) {
+        self.app.storage[AnyNexusKey.self] = nexus
+    }
 }
 
 extension VaporTube {
@@ -126,12 +131,14 @@ extension VaporTube {
             }
             let service = Self(app: app, logger: logger.derive(subId: "woo"))
             app.serviceRegistry = .init(managerURL: config.managerUrl, moduleID: config.id)
+            
             let decoder = JSONDecoder()
             decoder.dateDecodingStrategy = .iso8601
             ContentConfiguration.global.use(decoder: decoder, for: .json)
+            app.middleware.use(ConfigInjector())
+            
             do {
                 try await conf(service)
-                app.middleware.use(RouteEndErrorHandler())
             } catch {
                 let err = Self.Errcase.serviceInitFailed.subErr(error, category: .internal)
                 service.logger.report(error: err)
@@ -142,6 +149,9 @@ extension VaporTube {
                 }
                 throw err
             }
+            
+            app.middleware.use(RouteEndErrorHandler())
+            
             return service
         }
     }

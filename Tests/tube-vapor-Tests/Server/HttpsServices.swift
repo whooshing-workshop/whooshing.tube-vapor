@@ -22,8 +22,7 @@ struct HttpsService {
         let testPara = Environment.Config(
             id: ServiceBootstrap.moduleId,
             name: "testing-module",
-            port: TestingShared.httpsListenPort,
-            apiStrategy: .normal(authURL: .init(string: "http://localhost:6500")!)
+            port: TestingShared.httpsListenPort
         )
         
         var logger = Logger(label: "server.https")

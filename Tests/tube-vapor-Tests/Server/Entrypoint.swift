@@ -5,7 +5,7 @@ import Testing
 import LoggingAdvanced
 
 enum Entrypoint {
-    nonisolated(unsafe) static var httpsApp: VaporTube!
+    nonisolated(unsafe) static var httpsApp: Nexus<VaporTube>!
     
     private enum WatchdogResult: Sendable {
         case shouldStop
@@ -23,12 +23,13 @@ enum Entrypoint {
             .init(label: "console", level: .trace)
         ]).bootstrap()
         
-        httpsApp = try await HttpsService.makeService(paras: httpsBootstrapPara)
+        let tube = try await HttpsService.makeService(paras: httpsBootstrapPara)
+        httpsApp = .init(tube: tube, bootstrap: httpsBootstrapPara)
         
         try await withThrowingTaskGroup(of: WatchdogResult?.self) { group in
             
             group.addTask {
-                try await ServiceBootstrap.run(woo: httpsApp)
+                try await ServiceBootstrap.run(nexus: httpsApp)
                 return nil
             }
             
@@ -60,7 +61,7 @@ enum Entrypoint {
                 if case .shouldStop = result {
                     print("外层控制中心收到信号，正在安全取消所有服务...")
                     group.cancelAll()
-                    try! await httpsApp.asyncShutdown().get()
+                    try! await httpsApp.asyncShutdown()
                     break
                 }
             }

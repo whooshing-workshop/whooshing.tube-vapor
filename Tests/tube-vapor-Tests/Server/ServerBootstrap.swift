@@ -8,11 +8,11 @@ import LoggingAdvanced
 struct ServiceBootstrap {
     static let moduleId = UUID("F02F2803-BF88-4B51-A743-B3AA0F3FF804")!
     
-    static func run(woo: VaporTube) async throws {
+    static func run(nexus: Nexus<VaporTube>) async throws {
         do {
-            try await woo.execute().get()
+            try await nexus.execute()
         } catch {
-            try await woo.asyncShutdown().get()
+            try await nexus.asyncShutdown()
             throw error
         }
     }
