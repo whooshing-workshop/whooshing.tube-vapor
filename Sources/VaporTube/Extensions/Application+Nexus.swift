@@ -7,3 +7,12 @@ public struct AnyNexusKey: StorageKey {
 public extension Application {
     var nexus: AnyNexus { self.storage[AnyNexusKey.self]! }
 }
+
+public extension RoutesBuilder {
+    func inlineProtectGrouped() -> RoutesBuilder {
+        self.grouped(
+            ServiceValidator(),
+            ServiceValidator.Identifier.guardMiddleware()
+        )
+    }
+}
