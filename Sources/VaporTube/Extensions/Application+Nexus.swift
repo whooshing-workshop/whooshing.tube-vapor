@@ -10,7 +10,7 @@ public extension Application {
 
 public extension RoutesBuilder {
     func inlineProtectGrouped() -> RoutesBuilder {
-        self.grouped(
+        self.grouped("inline").grouped(
             ServiceValidator(),
             ServiceValidator.Identifier.guardMiddleware()
         )
