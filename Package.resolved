@@ -1,5 +1,5 @@
 {
-  "originHash" : "c0ee0631523a7f57511bd59f49b18e3eb10e624fb2c062d14e1bf3c7c99a22ff",
+  "originHash" : "a44cde7d577e9ed330f7449ccc36c2e94efbf260e28dbed5e2ef90d6331d7db4",
   "pins" : [
     {
       "identity" : "anycodable",
@@ -339,8 +339,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/whooshing-workshop/whooshing.nexus",
       "state" : {
-        "branch" : "develop",
-        "revision" : "c643a02b32921dbd3cb922d3dda145abe7b73fa8"
+        "revision" : "7f4add3afa5d07f1e9b96312e9a92dea311bfc43",
+        "version" : "1.0.0"
       }
     },
     {
